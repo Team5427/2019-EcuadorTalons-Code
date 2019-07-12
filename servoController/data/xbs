@@ -1,0 +1,22 @@
+control a motor
+LT	the LT button	3	SLIDER	z	0	1.0	0.0
+RT	the RT button	3	SLIDER	rz	0	1.0	0.0
+LB	the LB button	1	BUTTON	4	0	0.0	0.0
+RB	the RT button	1	BUTTON	5	0	0.0	0.0
+leftStickX	the left thumbstick x	3	SLIDER	x	0	1.0	0.0
+leftStickY	the left thumbstick y	3	SLIDER	y	0	1.0	0.0
+rightStickX	the right thumbstick x	3	SLIDER	rx	0	1.0	0.0
+rightStickY	the right thumbstick y	3	SLIDER	ry	0	1.0	0.0
+up	d-pad up	1	BUTTON	11	0	0.0	0.0
+down	d-pad down	1	BUTTON	12	0	0.0	0.0
+left	d-pad left	1	BUTTON	13	0	0.0	0.0
+right	d-pad right	1	BUTTON	14	0	0.0	0.0
+a	a button	1	BUTTON	0	0	0.0	0.0
+b	b button	1	BUTTON	1	0	0.0	0.0
+x	x button	1	BUTTON	2	0	0.0	0.0
+y	y button	1	BUTTON	3	0	0.0	0.0
+home	xbox button	1	BUTTON	10	0	0.0	0.0
+menu	the three lined button	1	BUTTON	8	0	0.0	0.0
+share	the two screens button	1	BUTTON	9	0	0.0	0.0
+leftStickIn	push the left stick in	1	BUTTON	6	0	0.0	0.0
+rightStickIn	push the right stick in	1	BUTTON	7	0	0.0	0.0
