@@ -18,6 +18,8 @@ Serial xbee;
                   
 float thumbLeft;//Values of the sliders on the game controller
 float thumbRight;
+float leftPrev = 0;
+float rightPrev = 0;
 boolean thumbLeftDropper;
 boolean thumbRightDropper;
 
@@ -65,17 +67,19 @@ void draw() //Called in a loop during the program, similar to loop() in the Ardu
  //Runs the servo motors with the specified port according to the values on the game controller. //Change the ports to match the wiring of your Arduino. 
  //Parameters: //port- the port of the servo being controlled. //angle- the value used to determine how much power to give to the servo.
  //arduino.servoWrite(3,(int) thumbLeft); 
- if(thumbLeft>6)
+ if(thumbLeft>6 && leftPrev != thumbLeft)
  {
    xbee.write('L');
    xbee.write((int)thumbLeft);
+   leftPrev = thumbLeft;
  }
  
  //arduino.servoWrite(9,(int) thumbRight);
- if(thumbRight>6)
+ if(thumbRight>6 && rightPrev != thumbRight)
  {
    xbee.write('R');
    xbee.write((int)thumbRight);
+   rightPrev = thumbRight;
  }
  
  if(thumbRightDropper)
