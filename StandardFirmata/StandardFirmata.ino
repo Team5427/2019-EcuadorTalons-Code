@@ -752,6 +752,14 @@ void systemResetCallback()
   isResetting = false;
 }
 
+#define VICTOR1_PIN 3
+#define VICTOR2_PIN 9
+#define VICTOR3_PIN -1
+
+Servo victor1;
+Servo victor2;
+Servo victor3;
+
 void setup()
 {
   Firmata.setFirmwareVersion(FIRMATA_FIRMWARE_MAJOR_VERSION, FIRMATA_FIRMWARE_MINOR_VERSION);
@@ -772,6 +780,7 @@ void setup()
   // However do not do this if you are using SERIAL_MESSAGE
 
   Firmata.begin(57600);
+  Serial.begin(9600);
   while (!Serial) {
     ; // wait for serial port to connect. Needed for ATmega32u4-based boards and Arduino 101
   }
@@ -779,9 +788,10 @@ void setup()
   systemResetCallback();  // reset to default config
 
   //setup the servo motors
-  arduino.pinMode(3, Arduino.SERVO);
-  arduino.pinMode(9, Arduino.SERVO);
-  arduino.pinMode(-1, Arduino.SERVO);
+  victor1.attach(VICTOR1_PIN);
+  victor2.attach(VICTOR2_PIN);
+  victor3.attach(VICTOR3_PIN);
+  
 }
 
 /*==============================================================================
@@ -823,7 +833,7 @@ void loop()
   }
 
   //***code to process data***
-  if(Serial.available>1)
+  if(Serial.available() >1)
   {
     
   }
@@ -831,34 +841,39 @@ void loop()
 #ifdef FIRMATA_SERIAL_FEATURE
   serialFeature.update();
 #endif
+  processData();
 }
 
 void processData()
 {
-  if(Serial.available>=2)
+  if(Serial.available() >=2)
   {
     char c = Serial.read();
     if(c == 'L')
     {
       int i = Serial.read();
-      arduino.servoWrite(3, i);
+      victor1.write(i);
     }
     else if(c == 'R')
     {
       int i = Serial.read();
-      arduino.servoWrite(9, i);
+      victor2.write(i);
     }
   }
-  else if(Serial.available>0)
+  else if(Serial.available() >0)
   {
     char c = Serial.read();
     if(c == 'A')
     {
-      arduino.servoWrite(-1, 180);
+      victor3.write(0);
     }
     else if(c == 'B')
     {
-      arduino.servoWrite(-1, 0);
+      victor3.write(180);
     }
+  }
+  while(Serial.available() > 0)
+  {
+    Serial.flush();
   }
 }

@@ -9,7 +9,6 @@ import cc.arduino.*;//Allows control of arduino controller
 
 import org.firmata.*;//Implements Fermata protocol for communicating with software on the host computer
 
-
 ControlDevice cont;//The game controller
 ControlIO control;//Retrieves information about connected devices and data from them
 
@@ -39,13 +38,13 @@ void setup() //This method runs once at the beginning of the program. Think of t
   
   //println(Arduino.list());//This line of code will list everything attached to COM ports on the Arduino. //Uncomment it and run to find the index of the serial port of your Arduino.
   arduino = new Arduino(this, Arduino.list()[2], 57600);  //To access the serial port your Arduino is on, change the number in the square //Brackets to match the index of the port in the list you printed above.
-  xbee = new Serial(this, Arduino.list()[2], 57600); 
+  xbee = new Serial(this, Arduino.list()[2], 9600); 
 
   //Configures the Arduino pins. //Parameters: //pin- the Arduino pin number to set the mode of. Change this number to match the pins your servos are attached to. //mode- defines how the pin behaves
   arduino.pinMode(3, Arduino.SERVO);
   arduino.pinMode(9, Arduino.SERVO);
   arduino.pinMode(-1, Arduino.SERVO);
-  
+                        
 }
 
 public void getUserInput() //This method gets the user input from the map
@@ -67,7 +66,7 @@ void draw() //Called in a loop during the program, similar to loop() in the Ardu
  //Runs the servo motors with the specified port according to the values on the game controller. //Change the ports to match the wiring of your Arduino. 
  //Parameters: //port- the port of the servo being controlled. //angle- the value used to determine how much power to give to the servo.
  //arduino.servoWrite(3,(int) thumbLeft); 
- if(thumbLeft>6 && leftPrev != thumbLeft)
+ if(thumbLeft>=6 && leftPrev != thumbLeft)
  {
    xbee.write('L');
    xbee.write((int)thumbLeft);
