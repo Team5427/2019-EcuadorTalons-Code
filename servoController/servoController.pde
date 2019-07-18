@@ -37,23 +37,23 @@ void setup() //This method runs once at the beginning of the program. Think of t
   }
   
   //println(Arduino.list());//This line of code will list everything attached to COM ports on the Arduino. //Uncomment it and run to find the index of the serial port of your Arduino.
-  arduino = new Arduino(this, Arduino.list()[2], 57600);  //To access the serial port your Arduino is on, change the number in the square //Brackets to match the index of the port in the list you printed above.
-  xbee = new Serial(this, Arduino.list()[2], 9600); 
+  //arduino = new Arduino(this, Arduino.list()[2], 57600);  //To access the serial port your Arduino is on, change the number in the square //Brackets to match the index of the port in the list you printed above.
+  xbee = new Serial(this, Serial.list()[2], 9600); 
 
   //Configures the Arduino pins. //Parameters: //pin- the Arduino pin number to set the mode of. Change this number to match the pins your servos are attached to. //mode- defines how the pin behaves
-  arduino.pinMode(3, Arduino.SERVO);
+  /*arduino.pinMode(3, Arduino.SERVO);
   arduino.pinMode(9, Arduino.SERVO);
-  arduino.pinMode(-1, Arduino.SERVO);
+  arduino.pinMode(-1, Arduino.SERVO);*/
                         
 }
 
 public void getUserInput() //This method gets the user input from the map
 {
  
- thumbLeft = map(cont.getSlider("leftStickY").getValue(), -1, 1, 6, 179); //Assign our float value //Access the controller
- thumbRight = map(cont.getSlider("rightStickY").getValue(), -1, 1, 6, 179);
- thumbRightDropper = cont.getButton("RT").pressed();
- thumbLeftDropper = cont.getButton("LT").pressed();
+ thumbLeft = map(cont.getSlider("leftStickY").getValue(), -1, 1, 50, 100); //Assign our float value //Access the controller
+ thumbRight = map(cont.getSlider("rightStickY").getValue(), -1, 1, 150, 200);
+ thumbRightDropper = cont.getButton("RB").pressed();
+ thumbLeftDropper = cont.getButton("LB").pressed();
 }
 
 
@@ -63,32 +63,126 @@ void draw() //Called in a loop during the program, similar to loop() in the Ardu
  background(thumbLeft,100,255);   //Changes color of the window, giving us a visual indicator of the change in thumb values. (only one stick tho)
  background(thumbRight,100,255);
 
- //Runs the servo motors with the specified port according to the values on the game controller. //Change the ports to match the wiring of your Arduino. 
- //Parameters: //port- the port of the servo being controlled. //angle- the value used to determine how much power to give to the servo.
- //arduino.servoWrite(3,(int) thumbLeft); 
- if(thumbLeft>=6 && leftPrev != thumbLeft)
+
+//Dropper Controlls
+ /*if(thumbRightDropper && !thumbLeftDropper)
  {
-   xbee.write('L');
+  //arduino.servoWrite(-1, 180); 
+  xbee.write(500);
+     System.out.println("right button");
+
+ }
+ else if(!thumbRightDropper && thumbLeftDropper)
+ {
+   xbee.write(600);
+   System.out.println("left button");
+   
+ }
+ else if(!thumbRightDropper && !thumbLeftDropper)
+ {
+   xbee.write(700);
+ }*/
+
+//Slider Controls
+  if(rightPrev != thumbRight) // motor 2: 150-200
+  {
+   xbee.write((int)thumbRight);
+   rightPrev = thumbRight;
+   System.out.println("right thumb"+(int)(thumbRight));
+  }
+  if(leftPrev != thumbLeft) // motor 1: 50-100
+  {
    xbee.write((int)thumbLeft);
    leftPrev = thumbLeft;
+   System.out.println("left thumb"+(int)(thumbLeft));
+  }
+
+
+
+
+ 
+ 
+ /*if(thumbLeft > 999 && leftPrev != thumbLeft)
+ {
+   //xbee.write('L');
+   xbee.write((int)thumbLeft);
+   leftPrev = thumbLeft;
+   System.out.println("left thumb"+(int)(thumbLeft));
  }
  
  //arduino.servoWrite(9,(int) thumbRight);
- if(thumbRight>6 && rightPrev != thumbRight)
+ if(thumbRight> 999 && rightPrev != thumbRight)
  {
    xbee.write('R');
    xbee.write((int)thumbRight);
    rightPrev = thumbRight;
- }
+      System.out.println("right thumb"+(int)(thumbRight));
+
+ }*/
  
- if(thumbRightDropper)
+ 
+ /*if((int)thumbLeft == 92 && leftPrev != thumbLeft)
  {
-  //arduino.servoWrite(-1, 180); 
-  xbee.write('A');
+   xbee.write('L');
+   xbee.write('S');
+   leftPrev = thumbLeft;
+   System.out.println("thumbLeft"+(int)thumbLeft);
+
  }
- else if(thumbLeftDropper)
+ else if((int)thumbLeft >= 6 && (int)thumbLeft <92 && leftPrev != thumbLeft)
  {
-  //arduino.servoWrite(-1, 0);
-  xbee.write('B');
+   xbee.write('L');
+   xbee.write('B');
+   leftPrev = thumbLeft;
+   System.out.println("thumbLeft"+(int)thumbLeft);
+
  }
+ else if((int)thumbLeft <= 179 && (int)thumbLeft > 92 && leftPrev != thumbLeft)
+ {
+   xbee.write('L');
+   xbee.write('F');
+   leftPrev = thumbLeft;
+   System.out.println("thumbLeft"+(int)thumbLeft);
+
+ }
+ else if((int)thumbRight == 92 && rightPrev != thumbRight)
+ {
+   xbee.write('R');
+   xbee.write('S');
+   rightPrev = thumbRight;
+   System.out.println("thumbRight"+(int)thumbRight);
+
+ }
+ else if((int)thumbRight >= 6 && (int)thumbRight <92 && rightPrev != thumbRight)
+ {
+   xbee.write('R');
+   xbee.write('B');
+   rightPrev = thumbRight;
+   System.out.println("thumbRight"+(int)thumbRight );
+
+ }
+ else if((int)thumbRight <= 179 && (int)thumbRight > 92 && rightPrev != thumbRight)
+ {
+   xbee.write('R');
+   xbee.write('F');
+   rightPrev = thumbRight;
+   System.out.println("thumbRight"+(int)thumbRight);
+
+ }
+ /*if(thumbRightDropper)
+ {
+   xbee.write('A');
+ }
+ else if(!thumbRightDropper)
+ {
+   xbee.write('B');
+ }
+ if(thumbLeftDropper)
+ {
+   xbee.write('C');
+ }
+ else if(!thumbLeftDropper)
+ {
+   xbee.write('D');
+ }*/
 }
