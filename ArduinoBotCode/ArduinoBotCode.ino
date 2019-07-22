@@ -1,131 +1,140 @@
-#include <Servo.h>
-//#define rxPin 2 
-//#define txPin 3
-#define motor1pin 3
-#define motor2pin 9
-Servo motor1;
-Servo motor2;
-
-void setup() {
-  // put your setup code here, to run once:
-  //pinMode(rxPin, INPUT);
-  //pinMode(txPin, OUTPUT);
-  motor1.attach(motor1pin);
-  motor2.attach(motor2pin);
-  //xbee.begin(9600);
-  Serial.begin(9600);
-  Serial.println("StartingXBee Communication");
+//Sai Juttu
+/* 
+   •••••••••••••••••••••••••••••••••••••••••••••••••••••••         
+   §                                                     §
+   §   This class recieves input from a router XBee      §
+   §   and decodes the byte data into values that are .  §
+   §   understood by the PWM motors to set  a speed      §                                         §
+   §                                                     §
+   •••••••••••••••••••••••••••••••••••••••••••••••••••••••
    
+   Todo:
+   ¶ test for trigger functionality
+   ¶ retest with new code
+   
+*/
+
+#include <Servo.h>      //import the servo library to use to control the PWM Motors
+
+#define motor1pin 3     //set the pin numbers for the motors
+#define motor2pin 9     
+
+Servo motor1;           //declare the motors
+Servo motor2; 
+
+void setup()                     //runs once to setup everything
+{
+    motor1.attach(motor1pin);    //attachss motor 1 to its pin
+    motor2.attach(motor2pin);    //attaches motor 2 to its pin
+    Serial.begin(9600);          //begins serial communication at the same baud rate
 }
 
-void loop() {
-  // put your main code here, to run repeatedly:
-  //Serial.println("Waiting for Xb");
+void loop()
+{
   
-    /*char c = Serial.read();
-     if(c == 'A')
-     {
-       Serial.println("A");
-       motor1.writeMicroseconds(map(0,0,255,1000,2000));
-       
-     }
-     else if(c == 'B')
-     {
-       Serial.println("B");
-       motor1.writeMicroseconds(map(255,0,255,1000,2000));
-       
-
-     }
-      if(c == 'L')
-      {
-        Serial.println("L");
-        Serial.println(Serial.read());
-        //int i = Serial.read();
-        char d = Serial.read();
-        if(d == 'F')
-        {
-          motor1.writeMicroseconds(map(255,0,255,1000,2000));
-        }
-        if(d == 'S')
-        {
-          motor1.writeMicroseconds(map(127,0,255,1000,2000));
-        }
-        if(d == 'B')
-        {
-          motor1.writeMicroseconds(map(6,0,255,1000,2000));
-        }
-      
-      }
-      if(c == 'R')
-      {
-        //erial.println("R");
-        //Serial.println(Serial.read());
-        //int i = Serial.read();
-        char d = Serial.read();
-        if(d == 'F')
-        {
-          motor2.writeMicroseconds(map(255,0,255,1000,2000));
-        }
-        if(d == 'S')
-        {
-          motor2.writeMicroseconds(map(127,0,255,1000,2000));
-        }
-        if(d == 'B')
-        {
-          motor2.writeMicroseconds(map(0,0,255,1000,2000));
-        }      
-      }*/
-     
-   
-      //byte c = Serial.read();
-      /* //0-255 motor 1 256-510 motor 2 511-765 motor 3
-      if((int)c == 500)
-      {
-        //Serial.println("A");
-        motor1.writeMicroseconds(map(0,0,255,1000,2000));
-        //delay(21);
-      }
-      else if((int)c == 600)
-      {
-        //Serial.println("B");
-        motor1.writeMicroseconds(map(255,0,255,1000,2000));
-        //delay(21);
-        
-      }
-      else if((int)c == 700)
-      {
-        motor1.writeMicroseconds(map(127,0,255,1000,2000));
-      }*/
       byte c = Serial.read();
-      //101-200 motor 1 201-300 motor 2 301-400 motor 3
-      if((int)c >=50 && (int)c <= 100)//motor 1
-      {
-        motor1.writeMicroseconds(map((int)c,50,100,1000,2000));
-      }
-      else if((int)c >=150 && (int)c <= 200)//motor 1
-      {
-        motor2.writeMicroseconds(map((int)c,150,200,1000,2000));
-      }
-      else if((int)c >=250 && (int)c <= 300)//motor 1
-      {
-        //motor1.writeMicroseconds(map((int)c,250,300,1000,2000));
-      }
+/* 
+   •••••••••••••••••••••••••••••••••••••••••••••••••••••••   
+   §                                                     §
+   §   ByteCodes                                         §
+   §                                                     §
+   §   joyLeftY     50-100       buttonA       621-622   §
+   §   joyLeftX     150-200      buttonB       623-624   §
+   §   joyRightY    250-300      buttonX       625-626   §
+   §   joyRightX    350-400      buttonY       627-628   §
+   §   triggerLeft  450-500      buttonShare   631-632   §
+   §   triggerRight 550-600      buttonHome    633-634   §
+   §                             buttonMenu    635-636   §
+   §   buttonLeft   601-602      stickInLeft   637-638   §
+   §   buttonRight  603-604      stickInRight  639-640   §
+   §   dPadUp       611-612                              §
+   §   dPadDown     613-614                              §
+   §   dPadRight    615-616                              §
+   §   dPadLeft     617-618                              §
+   §                                                     §
+   •••••••••••••••••••••••••••••••••••••••••••••••••••••••
+   
+   
+*/     
+      //Float Controls
 
+      if((int)c >=50 && (int)c <= 100)                                //left joystick y axis
+      { motor1.writeMicroseconds(map((int)c,50,100,1000,2000)); }
+      else if((int)c >=150 && (int)c <= 200)                          //left joystick x axis
+      {}
+      else if((int)c >=250 && (int)c <= 300)                          //right joystick y axis
+      { motor2.writeMicroseconds(map((int)c,150,200,1000,2000)); }
+      else if((int)c >=350 && (int)c <= 400)                          //right joystick x axis
+      {}
+      else if((int)c >=450 && (int)c <= 500)                          //left trigger
+      {}
+      else if((int)c >=550 && (int)c <= 600)                          //right trigger
+      {}
 
+      //Boolean Controls
+
+      if((int)c == 601)                                                   //left button on
+      {}
+      else if((int)c == 602)                                              //left button off
+      {}
+      else if((int)c == 603)                                              //right button on 
+      {}
+      else if((int)c == 604)                                              //right button off 
+      {}
+      else if((int)c == 611)                                              //dpad up on
+      {}
+      else if((int)c == 612)                                              //dpad up off
+      {}
+      else if((int)c == 613)                                              //dpad down on 
+      {}
+      else if((int)c == 614)                                              //dpad down off 
+      {}
+      else if((int)c == 615)                                              //dpad right  on 
+      {}
+      else if((int)c == 616)                                              //dpad right off 
+      {}
+      else if((int)c == 617)                                              //dpad left on 
+      {}
+      else if((int)c == 618)                                              //dpad left off
+      {}
+      else if((int)c == 621)                                              //button a on
+      {}
+      else if((int)c == 622)                                              //button a off                 
+      {}
+      else if((int)c == 623)                                              //button b on
+      {}
+      else if((int)c == 624)                                              //button b off
+      {}
+      else if((int)c == 625)                                              //button x on
+      {}
+      else if((int)c == 626)                                              //button x off
+      {}
+      else if((int)c == 627)                                              //button y on
+      {}
+      else if((int)c == 628)                                              //button y off
+      {}
+      else if((int)c == 631)                                              //share button on 
+      {}
+      else if((int)c == 632)                                              //share button off 
+      {}
+      else if((int)c == 633)                                              //home button on
+      {}
+      else if((int)c == 634)                                              //home button off
+      {}
+      else if((int)c == 635)                                              //menu button on 
+      {}
+      else if((int)c == 636)                                              //menu button on 
+      {}
+      else if((int)c == 637)                                              //left stick in on
+      {}  
+      else if((int)c == 638)                                              //left stick in off
+      {}
+      else if((int)c == 639)                                              //right stick in on
+      {}
+      else if((int)c == 640)                                              //right stick in off
+      {}
       
-      /*else if(c == 'L')
-      {
-        motor1.writeMicroseconds(map(6,6,179,1000,2000));
-        //byte i = Serial.read();
-        //motor1.writeMicroseconds(map((int)i,6,179,1000,2000));
       
-      }
-      else if(c == 'R')
-      {
-        motor1.writeMicroseconds(map(179,6,179,1000,2000));
-        //byte i = Serial.read();
-        //motor2.writeMicroseconds(map((int)i,6,179,1000,2000));
       
-      }*/
     
 }
