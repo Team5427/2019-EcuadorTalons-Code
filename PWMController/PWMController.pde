@@ -65,7 +65,8 @@ void setup()                                               //This method runs on
 {    
   
       size(360, 200);                                      //Creates a window with the specified pixel size. This will give feedback used when getting controller values. 
-     
+      println(Serial.list());                              //This line of code will list everything attached to COM ports on the Arduino. Run to find the index of the serial port of your Arduino.
+
       control = ControlIO.getInstance(this);               //Initializes with current instance of the ControlIO, with currently connected devices.
       cont = control.getMatchedDevice("xbs");              //Initializes controller to the ControlDevice matching the configuration described in the file, "xbs".
       if(cont == null)                                     //Stops the program if the specified controller is not detected to avoid crashing
@@ -73,8 +74,6 @@ void setup()                                               //This method runs on
         println("Controller was not found!");
         System.exit(-1);
       }
-      
-      println((Object[])Serial.list());                    //This line of code will list everything attached to COM ports on the Arduino. Run to find the index of the serial port of your Arduino.
       xbee = new Serial(this, Serial.list()[2], 9600);
     
 }
