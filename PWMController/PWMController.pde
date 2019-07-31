@@ -45,10 +45,10 @@ float tRPrev;          //previous right trigger value
 boolean buttonLeft;    //"LB" button
 boolean buttonRight;   //"RB" button
 
-boolean dPadUp;        //d-pad up
-boolean dPadDown;      //d-pad down
-boolean dPadRight;     //d-pad right
-boolean dPadLeft;      //d-pad left
+//boolean dPadUp;        //d-pad up
+//boolean dPadDown;      //d-pad down
+//boolean dPadRight;     //d-pad right
+//boolean dPadLeft;      //d-pad left
 
 boolean buttonA;       //"A" button
 boolean buttonB;       //"B" button
@@ -97,10 +97,10 @@ public void getUserInput()                                                      
      buttonLeft      = cont.getButton("LB").pressed();                                      //assign the current status of the left button
      buttonRight     = cont.getButton("RB").pressed();                                      //assign the current status of the right button
     
-     dPadUp          = cont.getButton("up").pressed();                                      //assign the current status of the d-pad up button
-     dPadDown        = cont.getButton("down").pressed();                                    //assign the current status of the d-pad down button
-     dPadRight       = cont.getButton("right").pressed();                                   //assign the current status of the d-pad right button
-     dPadLeft        = cont.getButton("left").pressed();                                    //assign the current status of the d-pad left button
+     //dPadUp          = cont.getButton("up").pressed();                                      //assign the current status of the d-pad up button
+     //dPadDown        = cont.getButton("down").pressed();                                    //assign the current status of the d-pad down button
+     //dPadRight       = cont.getButton("right").pressed();                                   //assign the current status of the d-pad right button
+     //dPadLeft        = cont.getButton("left").pressed();                                    //assign the current status of the d-pad left button
     
      buttonA         = cont.getButton("a").pressed();                                       //assign the current status of the a button
      buttonB         = cont.getButton("b").pressed();                                       //assign the current status of the b button
@@ -194,7 +194,7 @@ void draw()                                                                 //ru
      else                                                       //right button off 
      { xbee.write(604); }
      
-     if(dPadUp)                                                 //dpad up on
+     /*if(dPadUp)                                                 //dpad up on
      { xbee.write(611); System.out.println("up"); }
      else                                                       //dpad up off
      { xbee.write(612); }
@@ -212,7 +212,7 @@ void draw()                                                                 //ru
      if(dPadLeft)                                               //dpad left on 
      { xbee.write(617); System.out.println("left"); }
      else                                                       //dpad left off 
-     { xbee.write(618); }
+     { xbee.write(618); }*/
      
      if(buttonA)                                                //button a on
      { xbee.write(621); System.out.println("A"); }
