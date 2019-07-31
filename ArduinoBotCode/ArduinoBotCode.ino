@@ -32,7 +32,7 @@ void setup()                     //runs once to setup everything
 void loop()
 {
   
-      byte c = Serial.read();
+      byte c = Serial.read();                                         //reads data from serial port and stores it into a byte variable
 /* 
    •••••••••••••••••••••••••••••••••••••••••••••••••••••••   
    §                                                     §
