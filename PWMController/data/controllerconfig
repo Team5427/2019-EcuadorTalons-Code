@@ -1,0 +1,19 @@
+Control PWM Motors
+rightY	right y axis	3	SLIDER	Z Rotation	0	1.0	0.0
+rightX	right x axis	3	SLIDER	Z Axis	0	1.0	0.0
+leftY	left y axis	3	SLIDER	Y Axis	0	1.0	0.0
+leftX	right x axis	3	SLIDER	X Axis	0	1.0	0.0
+rt	right trigger	3	SLIDER	Y Rotation	0	1.0	0.0
+lt	left trigger	3	SLIDER	X Rotation	0	1.0	0.0
+dpad	dpad 	2	HAT	cooliehat: Hat Switch	0	1.0	0.0
+x	x button	1	BUTTON	Button 0	0	0.0	0.0
+a	a button	1	BUTTON	Button 1	0	0.0	0.0
+b	b button	1	BUTTON	Button 2	0	0.0	0.0
+y	y button	1	BUTTON	Button 3	0	0.0	0.0
+lb	left button	1	BUTTON	Button 4	0	0.0	0.0
+rb	right button	1	BUTTON	Button 5	0	0.0	0.0
+share	share button	1	BUTTON	Button 8	0	0.0	0.0
+options	options button	1	BUTTON	Button 9	0	0.0	0.0
+leftstickbutton	left stick button	1	BUTTON	Button 10	0	0.0	0.0
+rightstickbutton	rightstickbutton	1	BUTTON	Button 11	0	0.0	0.0
+home	home button	1	BUTTON	Button 12	0	0.0	0.0
