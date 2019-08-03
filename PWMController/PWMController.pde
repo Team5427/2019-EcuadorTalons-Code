@@ -31,6 +31,8 @@ Serial xbee;           //the xbee adapter that is connected to the Arduino
 
 ControlHat dpad;       //dpad 
 
+PImage img;
+
 float leftY;           //left joystick Y-axis
 float leftX;           //left joystic X-axis
 float rightY;          //right joystick Y-axis
@@ -67,7 +69,7 @@ boolean stickInRight;  //push the right joystick in
 void setup()                                               //This method runs once at the beginning of the program to setup everything
 {    
   
-      size(360, 200);                                      //Creates a window with the specified pixel size. This will give feedback used when getting controller values. 
+      size(700, 500);                                      //Creates a window with the specified pixel size. This will give feedback used when getting controller values. 
       println(Serial.list());                              //This line of code will list everything attached to COM ports on the Arduino. Run to find the index of the serial port of your Arduino.
 
       control = ControlIO.getInstance(this);               //Initializes with current instance of the ControlIO, with currently connected devices.
@@ -77,14 +79,20 @@ void setup()                                               //This method runs on
         println("Controller was not found!");
         System.exit(-1);
       }
-//xbee = new Serial(this, Serial.list()[2], 9600);
+      img = loadImage("controllerimage.png");
+     
+      
+      
+      //xbee = new Serial(this, Serial.list()[2], 9600);
     
 }
 void draw()                                                                 //runs ins a loop like in ArduinoIDE until the program is stopped
 {
+     background(100);                                                       //draws the background
      getUserInput();                                                        //Updates the thumb values by getting the user input
      communicate();                                                         //sends data to the xbee
-     background(rightY,100,255);                                            //Changes color of the window, giving us a visual indicator of the change in thumb values. (only one stick tho)
+     drawController();                                                      //draws the controller
+     
 
 }
 public void getUserInput()                                                                  //This method gets the user input from the map
@@ -312,4 +320,100 @@ public void communicate()
      //{ xbee.write(640); }
      
      
+}
+public void drawController()
+{
+    float lefty = map(leftY,50,100,175,225);
+    float leftx = map(leftX,150,200,200,250);
+    float righty = map(rightY,250,300,251,301);
+    float rightx = map(rightX,350,400,392,442);
+    float leftt = map(triggerLeft,450,500,180,270);
+    float rightt = map(triggerRight,550,600,420,510);
+    
+    image(img,99,9);
+    fill(200);
+    rect(180,50,100,10);
+    rect(420,50,100,10);
+    textSize(31);
+    text("Steel Talons",265,400);
+    
+    pushMatrix();
+    
+    translate(leftx,lefty);
+    fill(200);
+    if(stickInLeft)
+      fill(0);
+    ellipse(0,0,50,50);
+    
+    popMatrix();
+    pushMatrix();
+    
+    translate(rightx,righty);
+    fill(200);
+    if(stickInRight)
+      fill(0);
+    ellipse(0,0,50,50);
+    
+    popMatrix();
+    pushMatrix();
+    
+    fill(0);
+    rect(leftt,40,10,30);
+    rect(rightt,40,10,30);
+    
+    popMatrix();
+    pushMatrix();
+    
+    fill(0);
+    rect(271,265,30,30);
+    if(buttonA)
+    { ellipse(478,235,30,30); }
+    if(buttonB)
+    { ellipse(512,203,30,30); }
+    if(buttonX)
+    { ellipse(444,203,30,30); }
+    if(buttonY)
+    { ellipse(478,169,30,30); }
+    if(buttonHome)
+    { ellipse(350,141,40,40); }
+    if(buttonShare)
+    { ellipse(315,201,15,15); }
+    if(buttonMenu)
+    { ellipse(386,201,15,15); }
+    if(dpad.up())
+    { rect(271,247,30,25); }
+    if(dpad.right())
+    { rect(295,265,25,30); }
+    if(dpad.down())
+    { rect(271,291,30,25); }
+    if(dpad.left())
+    { rect(251,265,25,30); }
+    
+    PShape s = createShape();
+    s.beginShape(TRIANGLE_STRIP);
+    s.vertex(182, 135);
+    s.vertex(182, 129);
+    s.vertex(255, 98);
+    s.vertex(285, 115);
+    s.vertex(272, 135);
+    s.vertex(248, 118);
+    s.endShape();
+    
+    PShape s2 = createShape();
+    s2.beginShape(TRIANGLE_STRIP);
+    s2.vertex(525, 135);
+    s2.vertex(525, 127);
+    s2.vertex(450, 98);
+    s2.vertex(415, 115);
+    s2.vertex(430, 139);
+    s2.vertex(460, 120);
+    s2.endShape();
+    
+    if(buttonLeft)
+    { shape(s, 0, 0); }
+  
+    if(buttonRight)
+    { shape(s2, 0, 0); }
+
+    popMatrix();
 }
